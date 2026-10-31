@@ -50,7 +50,7 @@ class NotesActivity : Activity() {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
         }
         root.addView(input, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-            topMargin = Ui.dp(this, 12)
+            topMargin = Ui.dp(this@NotesActivity, 12)
         })
 
         root.addView(Button(this).apply {
@@ -66,7 +66,7 @@ class NotesActivity : Activity() {
         list.adapter = adapter
         list.setOnItemClickListener { _, _, pos, _ -> edit(pos) }
         root.addView(list, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f).apply {
-            topMargin = Ui.dp(this, 12)
+            topMargin = Ui.dp(this@NotesActivity, 12)
         })
 
         setContentView(root)
