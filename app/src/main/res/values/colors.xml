@@ -3,4 +3,5 @@
     <color name="fg">#F0EEE6</color>
     <color name="dim">#9C9A92</color>
     <color name="line">#222222</color>
+    <color name="line_text">#55544F</color>
 </resources>
