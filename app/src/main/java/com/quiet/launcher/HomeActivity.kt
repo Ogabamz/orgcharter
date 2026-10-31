@@ -3,7 +3,6 @@ package com.quiet.launcher
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.AlarmClock
@@ -71,19 +70,25 @@ class HomeActivity : Activity() {
                 setText(R.string.empty_home)
                 setTextColor(getColor(R.color.dim))
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                typeface = resources.getFont(R.font.serif_regular)
+                gravity = Gravity.CENTER
             })
             return
         }
 
         val pad = dp(12)
+        val font = resources.getFont(R.font.serif_regular)
         for (key in keys) {
             val app = installed.getValue(key)
             appList.addView(TextView(this).apply {
                 text = prefs.customName(key) ?: app.label
                 setTextColor(getColor(R.color.fg))
-                setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
-                typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
-                gravity = Gravity.START
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 26f)
+                typeface = font
+                gravity = Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                )
                 setPadding(0, pad, 0, pad)
                 isSingleLine = true
                 setOnClickListener {

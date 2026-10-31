@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg"
     android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingStart="32dp"
     android:paddingTop="48dp"
@@ -15,17 +16,19 @@
         android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/serif_light"
         android:format12Hour="h:mm"
         android:format24Hour="HH:mm"
         android:textColor="@color/fg"
-        android:textSize="64sp" />
+        android:textSize="72sp" />
 
     <TextClock
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/serif_regular"
         android:format12Hour="EEEE, d MMMM"
         android:format24Hour="EEEE, d MMMM"
         android:paddingTop="4dp"
@@ -45,7 +48,7 @@
             android:id="@+id/appList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="vertical"
             android:paddingTop="24dp"
             android:paddingBottom="24dp" />

@@ -32,3 +32,5 @@ Locally: open the folder in Android Studio, or run `./gradlew assembleRelease`.
 
 `keystore/sideload.jks` is a throwaway signing key so updates install over each other. It's for personal
 sideloading only; don't use it for a Play Store release.
+
+The text uses [Source Serif 4](https://github.com/adobe-fonts/source-serif) (SIL Open Font License, see `FONT_LICENSE.txt`).

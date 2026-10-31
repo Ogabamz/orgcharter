@@ -91,6 +91,8 @@ class AppPickerActivity : Activity() {
     }
 
     private inner class Adapter : BaseAdapter() {
+        private val font = resources.getFont(R.font.serif_regular)
+
         override fun getCount() = shown.size
         override fun getItem(position: Int) = shown[position]
         override fun getItemId(position: Int) = position.toLong()
@@ -103,6 +105,7 @@ class AppPickerActivity : Activity() {
             view.text = app.label
             view.isChecked = app.key in selected
             view.setTextColor(getColor(R.color.fg))
+            view.typeface = font
             return view
         }
     }
