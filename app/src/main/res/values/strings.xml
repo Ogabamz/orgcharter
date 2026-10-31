@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Quiet</string>
+    <string name="choose_apps">Choose home apps</string>
+    <string name="search_hint">Search apps</string>
+    <string name="done">Done</string>
+    <string name="empty_home">No apps yet.\nLong-press the clock to choose some.</string>
+    <string name="first_run_hint">Long-press the clock any time to change your apps.</string>
+</resources>
