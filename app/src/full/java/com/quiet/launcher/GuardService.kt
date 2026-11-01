@@ -55,16 +55,6 @@ class GuardService : AccessibilityService() {
             "url_bar", "url_field", "mozac_browser_toolbar_url_view", "location_bar_edit_text",
             "url", "address_bar_edit_text", "search_box_text", "url_text",
         )
-
-        /** "https://www.m.youtube.com/watch?v=1" → "m.youtube.com". Null if it doesn't look like a web address. */
-        fun hostOf(raw: String): String? {
-            var t = raw.trim().lowercase()
-            if (t.isEmpty() || t.contains(' ')) return null
-            t = t.substringAfter("://")
-            t = t.substringBefore('/').substringBefore('?').substringBefore('#').substringBefore(':')
-            t = t.removePrefix("www.")
-            return if (t.contains('.')) t else null
-        }
     }
 
     private val handler = Handler(Looper.getMainLooper())
@@ -144,7 +134,7 @@ class GuardService : AccessibilityService() {
         if (sites.isEmpty()) return
         val root = rootInActiveWindow ?: return
         if (root.packageName?.toString() != pkg) return
-        val host = findUrl(root, pkg)?.let { hostOf(it) } ?: return
+        val host = findUrl(root, pkg)?.let { Web.hostOf(it) } ?: return
         val hit = sites.firstOrNull { host == it || host.endsWith(".$it") } ?: return
         lastBlock = now
         performGlobalAction(GLOBAL_ACTION_BACK)
@@ -174,7 +164,7 @@ class GuardService : AccessibilityService() {
             val id = n.viewIdResourceName?.lowercase()
             if (id != null && (id.contains("url") || id.contains("address")) && !n.isFocused) {
                 val t = n.text?.toString()
-                if (!t.isNullOrBlank() && hostOf(t) != null) return t
+                if (!t.isNullOrBlank() && Web.hostOf(t) != null) return t
             }
             for (i in 0 until n.childCount) n.getChild(i)?.let { queue.add(it) }
         }

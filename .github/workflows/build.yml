@@ -23,9 +23,9 @@ jobs:
       - name: Build
         run: |
           chmod +x gradlew
-          ./gradlew --no-daemon assembleRelease
+          ./gradlew --no-daemon assembleLiteRelease
           mkdir -p out
-          cp app/build/outputs/apk/release/app-release.apk out/QuietLauncher-${{ github.run_number }}.apk
+          cp app/build/outputs/apk/lite/release/app-lite-release.apk out/QuietLauncher-${{ github.run_number }}.apk
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -37,10 +37,13 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ github.run_number }}
-          name: Quiet Launcher build ${{ github.run_number }}
+          name: Quiet Launcher build ${{ github.run_number }} (lite)
           target_commitish: ${{ github.sha }}
           prerelease: true
           body: |
+            Lite edition: no accessibility service, so Play Protect shouldn't block it.
+            (No pause screen or website blocking. Build 4 is the full edition.)
+
             Download the .apk below on your phone and open it to install.
             Built from `${{ github.ref_name }}` at ${{ github.sha }}.
           files: out/*.apk

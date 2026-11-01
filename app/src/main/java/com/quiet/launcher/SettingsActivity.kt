@@ -66,13 +66,17 @@ class SettingsActivity : Activity() {
         }
 
         section("Distractions")
-        val guardOn = GuardService.isEnabled(this)
-        row("Pause & blocking", if (guardOn) "On" else "Off — tap to turn on (needed for the two below)") { guardSetup() }
-        row("Pause before opening", describeApps(Apps.distracting(this, prefs))) { picker(AppPickerActivity.DISTRACTING) }
-        row("Pause length", "${prefs.pauseSeconds} seconds") {
-            choose("Pause length", listOf(5, 10, 20, 30, 60), { "$it seconds" }) { prefs.pauseSeconds = it }
+        if (BuildConfig.HAS_GUARD) {
+            val guardOn = GuardService.isEnabled(this)
+            row("Pause & blocking", if (guardOn) "On" else "Off — tap to turn on (needed for the two below)") { guardSetup() }
+            row("Pause before opening", describeApps(Apps.distracting(this, prefs))) { picker(AppPickerActivity.DISTRACTING) }
+            row("Pause length", "${prefs.pauseSeconds} seconds") {
+                choose("Pause length", listOf(5, 10, 20, 30, 60), { "$it seconds" }) { prefs.pauseSeconds = it }
+            }
+            row("Blocked websites", prefs.blockedSites.joinToString(", ").ifEmpty { "None" }) { editSites() }
+        } else {
+            row("App timers", "Use the phone's Digital Wellbeing to limit YouTube and other apps") { openWellbeing() }
         }
-        row("Blocked websites", prefs.blockedSites.joinToString(", ").ifEmpty { "None" }) { editSites() }
         row("Screen time", if (ScreenTime.hasAccess(this)) "Shown under the date" else "Off — tap to allow usage access") {
             safeStart(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
         }
@@ -176,7 +180,7 @@ class SettingsActivity : Activity() {
             .setView(wrap)
             .setPositiveButton("Save") { _, _ ->
                 prefs.blockedSites = input.text.toString().split('\n', ',', ' ')
-                    .mapNotNull { GuardService.hostOf(it) }
+                    .mapNotNull { Web.hostOf(it) }
                     .distinct()
                 build()
             }
@@ -202,6 +206,16 @@ class SettingsActivity : Activity() {
             }
             .setNegativeButton("Close", null)
             .show()
+    }
+
+    private fun openWellbeing() {
+        val wellbeing = packageManager.getLaunchIntentForPackage("com.google.android.apps.wellbeing")
+        if (wellbeing != null && safeStart(wellbeing)) return
+        val attempts = listOf(
+            Intent().setClassName("com.google.android.apps.wellbeing", "com.google.android.apps.wellbeing.settings.TopLevelSettingsActivity"),
+            Intent(Settings.ACTION_SETTINGS),
+        )
+        for (i in attempts) if (safeStart(i)) return
     }
 
     private fun openDefaultHomeSettings() {

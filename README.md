@@ -41,10 +41,18 @@ YouTube and Chrome are never offered for the home screen.
 
 To get your old launcher back: Settings → Apps → Default apps → Home app → System launcher.
 
+## Editions
+
+- **lite** (build 5 onwards, what GitHub publishes): everything except the pause screen and website
+  blocking. It has no accessibility service, so Play Protect doesn't block the install.
+- **full** (build 4): adds the pause screen and website blocking through an accessibility service.
+  Play Protect often blocks installing this from a browser; install it from a computer with
+  `adb install` instead. Build it with `./gradlew assembleFullRelease`.
+
 ## Building
 
 Every push builds the APK with GitHub Actions (`.github/workflows/build.yml`) and publishes it as a release.
-Locally: open the folder in Android Studio, or run `./gradlew assembleRelease`.
+Locally: open the folder in Android Studio, or run `./gradlew assembleLiteRelease`.
 
 `keystore/sideload.jks` is a throwaway signing key so updates install over each other. It's for personal
 sideloading only; don't use it for a Play Store release.

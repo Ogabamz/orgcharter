@@ -17,6 +17,24 @@ android {
 
     // A fixed key so every new build installs over the old one without
     // losing your chosen apps. Personal sideload use only.
+    buildFeatures {
+        buildConfig = true
+    }
+
+    // lite: no accessibility service, installs without Play Protect blocking it.
+    // full: adds the pause screen and website blocking (needs accessibility).
+    flavorDimensions += "edition"
+    productFlavors {
+        create("lite") {
+            dimension = "edition"
+            buildConfigField("boolean", "HAS_GUARD", "false")
+        }
+        create("full") {
+            dimension = "edition"
+            buildConfigField("boolean", "HAS_GUARD", "true")
+        }
+    }
+
     signingConfigs {
         create("sideload") {
             storeFile = rootProject.file("keystore/sideload.jks")
